@@ -53,6 +53,16 @@ class AuthController extends Controller
     }
 
     /**
+     * Get a JWT via given credentials.
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function is_login()
+    {
+        return response()->json(['logged_in' => auth()->check()]);
+    }
+
+    /**
      * Get the authenticated User.
      *
      * @return \Illuminate\Http\JsonResponse
