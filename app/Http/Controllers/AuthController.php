@@ -17,9 +17,15 @@ class AuthController extends Controller
      */
     public function register() {
         $validator = Validator::make(request()->all(), [
-            'name' => 'required',
-            'email' => 'required|email|unique:users',
-            'password' => 'required|confirmed|min:8',
+            'name' => 'required|string|max:255',
+            'username' => 'required|string|unique:users',
+            'password' => 'required|confirmed|min:6',
+            'hourly_rate' => 'required|numeric|min:1',
+            'dob' => 'nullable|date',
+            'address' => 'nullable|string|max:255',
+            'phone' => 'nullable|string|max:255',
+            'language' => 'nullable|string',
+            'status' => 'nullable|numeric',
         ]);
 
         if($validator->fails()){
@@ -28,8 +34,15 @@ class AuthController extends Controller
 
         $user = new User;
         $user->name = request()->name;
-        $user->email = request()->email;
+        $user->username = request()->username;
         $user->password = bcrypt(request()->password);
+        $user->group = 2;
+        $user->hourly_rate = request()->hourly_rate;
+        $user->dob = request()->dob;
+        $user->address = request()->address;
+        $user->phone = request()->phone;
+        $user->language = request()->language;
+        $user->status = request()->status;
         $user->save();
 
         return response()->json($user, 201);
@@ -43,7 +56,7 @@ class AuthController extends Controller
      */
     public function login()
     {
-        $credentials = request(['email', 'password']);
+        $credentials = request(['username', 'password']);
 
         if (! $token = auth()->attempt($credentials)) {
             return response()->json(['error' => 'Unauthorized'], 401);
