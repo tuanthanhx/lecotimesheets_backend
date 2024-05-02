@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
+// use Illuminate\Support\Facades\Log;
 
 class UserController extends Controller
 {
@@ -24,6 +24,7 @@ class UserController extends Controller
             $keyword = $request->keyword;
             $query->where(function ($q) use ($keyword) {
                 $q->where('name', 'like', "%$keyword%")
+                  ->orWhere('username', 'like', "%$keyword%")
                   ->orWhere('address', 'like', "%$keyword%")
                   ->orWhere('phone', 'like', "%$keyword%");
             });
@@ -32,7 +33,7 @@ class UserController extends Controller
         // Check if a status was provided
 
         if ($request->filled('status')) {
-            Log::debug('xxxx' . $request->status);
+            // Log::debug('$request->status ' . $request->status);
             $query->where('status', $request->status);
         }
 
