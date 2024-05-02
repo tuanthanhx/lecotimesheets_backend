@@ -43,6 +43,46 @@ class UserController extends Controller
         return response()->json($users);
     }
 
+
+    /**
+     * Store a newly created user in storage.
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
+    {
+        // Validate incoming request data
+        $validatedData = $request->validate([
+            'username' => 'required|string|max:255|unique:users',
+            'password' => 'required|string|min:6',
+            'name' => 'required|string|max:255',
+            'dob' => 'nullable|date',
+            'address' => 'nullable|string|max:255',
+            'phone' => 'nullable|string|max:255',
+            'hourly_rate' => 'required|numeric',
+            'language' => 'nullable|string|max:2',
+            'status' => 'nullable|integer',
+        ]);
+
+        // Create and save the new user
+        $user = User::create([
+            'name' => $validatedData['name'],
+            'username' => $validatedData['username'],
+            'password' => bcrypt($validatedData['password']),
+            'group' => 2,
+            'dob' => isset($validatedData['dob']) ? date('Y-m-d', strtotime($validatedData['dob'])) : null,
+            'address' => $validatedData['address'] ?? null,
+            'phone' => $validatedData['phone'] ?? null,
+            'hourly_rate' => $validatedData['hourly_rate'],
+            'language' => $validatedData['language'] ?? null,
+            'status' => $validatedData['status'] ?? null,
+        ]);
+
+        return response()->json(['message' => 'User created successfully', 'user' => $user], 201);
+    }
+
+
     /**
      * Activate the specified user in storage.
      *
@@ -61,6 +101,7 @@ class UserController extends Controller
 
         return response()->json(['message' => 'User deleted successfully'], 200);
     }
+
 
     /**
      * Deactivate the specified user in storage.

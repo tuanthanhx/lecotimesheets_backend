@@ -23,6 +23,7 @@ Route::group([
     'prefix' => 'users'
 ], function ($router) {
     Route::get('/', [UserController::class, 'index'])->middleware('auth:api')->name('index');
+    Route::post('/', [UserController::class, 'store'])->middleware('auth:api')->name('store');
     Route::post('/{id}/activate', [UserController::class, 'activate'])->middleware('auth:api')->name('activate');
     Route::post('/{id}/deactivate', [UserController::class, 'deactivate'])->middleware('auth:api')->name('deactivate');
     Route::delete('/{id}', [UserController::class, 'destroy'])->middleware('auth:api')->name('destroy');
