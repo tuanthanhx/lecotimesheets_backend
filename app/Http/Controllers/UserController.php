@@ -82,6 +82,47 @@ class UserController extends Controller
 
 
     /**
+     * Update the specified user in storage.
+     *
+     * @param Request $request
+     * @param int $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, $id)
+    {
+        $user = User::find($id);
+        if (!$user) {
+            return response()->json(['message' => 'User not found'], 404);
+        }
+
+        // Validate incoming request data
+        $validatedData = $request->validate([
+            'name' => 'required|string|max:255',
+            'username' => 'required|string|max:255|unique:users,username,' . $id,
+            'password' => 'sometimes|string|min:6',
+            'hourly_rate' => 'numeric',
+            'dob' => 'nullable|date',
+            'address' => 'nullable|string|max:255',
+            'phone' => 'nullable|string|max:255',
+            'language' => 'nullable|string|max:2',
+            'status' => 'nullable|integer',
+        ]);
+
+        // Only update fields that are provided
+        if ($request->has('dob')) {
+            $validatedData['dob'] = date('Y-m-d', strtotime($validatedData['dob']));
+        }
+        if ($request->has('password')) {
+            $validatedData['password'] = Hash::make($validatedData['password']);
+        }
+
+        $user->update($validatedData);
+
+        return response()->json(['message' => 'User updated successfully', 'user' => $user]);
+    }
+
+
+    /**
      * Activate the specified user in storage.
      *
      * @param int $id
