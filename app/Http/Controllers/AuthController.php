@@ -15,38 +15,38 @@ class AuthController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function register() {
-        $validator = Validator::make(request()->all(), [
-            'name' => 'required|string|max:255',
-            'username' => 'required|string|unique:users',
-            'password' => 'required|confirmed|min:6',
-            'hourly_rate' => 'required|numeric|min:1',
-            'dob' => 'nullable|date',
-            'address' => 'nullable|string|max:255',
-            'phone' => 'nullable|string|max:255',
-            'language' => 'nullable|string',
-            'status' => 'nullable|numeric',
-        ]);
+    // public function register() {
+    //     $validator = Validator::make(request()->all(), [
+    //         'name' => 'required|string|max:255',
+    //         'username' => 'required|string|unique:users',
+    //         'password' => 'required|confirmed|min:6',
+    //         'hourly_rate' => 'required|numeric|min:1',
+    //         'dob' => 'nullable|date',
+    //         'address' => 'nullable|string|max:255',
+    //         'phone' => 'nullable|string|max:255',
+    //         'language' => 'nullable|string',
+    //         'status' => 'nullable|numeric',
+    //     ]);
 
-        if($validator->fails()){
-            return response()->json($validator->errors()->toJson(), 400);
-        }
+    //     if($validator->fails()){
+    //         return response()->json($validator->errors()->toJson(), 400);
+    //     }
 
-        $user = new User;
-        $user->name = request()->name;
-        $user->username = request()->username;
-        $user->password = bcrypt(request()->password);
-        $user->group = 2;
-        $user->hourly_rate = request()->hourly_rate;
-        $user->dob = request()->dob;
-        $user->address = request()->address;
-        $user->phone = request()->phone;
-        $user->language = request()->language;
-        $user->status = request()->status;
-        $user->save();
+    //     $user = new User;
+    //     $user->name = request()->name;
+    //     $user->username = request()->username;
+    //     $user->password = bcrypt(request()->password);
+    //     $user->group = 2;
+    //     $user->hourly_rate = request()->hourly_rate;
+    //     $user->dob = request()->dob;
+    //     $user->address = request()->address;
+    //     $user->phone = request()->phone;
+    //     $user->language = request()->language;
+    //     $user->status = request()->status;
+    //     $user->save();
 
-        return response()->json($user, 201);
-    }
+    //     return response()->json($user, 201);
+    // }
 
 
     /**
@@ -57,6 +57,12 @@ class AuthController extends Controller
     public function login()
     {
         $credentials = request(['username', 'password']);
+
+        $user = User::where('username', $credentials['username'])->first();
+
+        if ($user && $user->status != 1) {
+            return response()->json(['error' => 'Deactivated'], 401);
+        }
 
         if (! $token = auth()->attempt($credentials)) {
             return response()->json(['error' => 'Unauthorized'], 401);
