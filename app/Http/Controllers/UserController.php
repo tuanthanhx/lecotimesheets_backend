@@ -24,9 +24,7 @@ class UserController extends Controller
             $keyword = $request->keyword;
             $query->where(function ($q) use ($keyword) {
                 $q->where('name', 'like', "%$keyword%")
-                  ->orWhere('username', 'like', "%$keyword%")
-                  ->orWhere('address', 'like', "%$keyword%")
-                  ->orWhere('phone', 'like', "%$keyword%");
+                  ->orWhere('username', 'like', "%$keyword%");
             });
         }
 
