@@ -16,8 +16,8 @@ class UserController extends Controller
      */
     public function index(Request $request)
     {
-        // Start with a query for all users in group 2
-        $query = User::where('group', 2);
+        // Start the query with the specific group condition
+        $query = User::where('group', 2)->orderBy('id', 'desc');
 
         // Check if a keyword was provided
         if ($request->filled('keyword')) {
@@ -29,16 +29,54 @@ class UserController extends Controller
         }
 
         // Check if a status was provided
-
         if ($request->filled('status')) {
             // Log::debug('$request->status ' . $request->status);
             $query->where('status', $request->status);
         }
 
-        // Execute the query
-        $users = $query->get();
+        // Validate and set the limit parameter, converting it to an integer
+        $limit = intval($request->input('limit', 10)); // Default to 10 if limit is not valid or provided
 
-        return response()->json($users);
+        // Validate and set the page parameter, converting it to an integer
+        $page = intval($request->input('page', 1)); // Default to page 1 if page is not valid or provided
+        if ($page <= 0) {
+            $page = 1; // Ensure that page is positive
+        }
+
+        // Handle 'show all' case when limit is set to -1
+        if ($limit == -1) {
+            $users = $query->get(); // Fetch all users matching the criteria
+            $total = $users->count(); // Count the users
+
+            // Prepare the response for 'all' data
+            $response = [
+                'data' => $users,
+                'total' => $total,
+                'limit' => -1,
+                'currentPage' => 1,
+                'lastPage' => 1,
+            ];
+        } else {
+            // Ensure that limit is positive for regular pagination
+            if ($limit <= 0) {
+                $limit = 10;
+            }
+
+            // Apply pagination if limit is not -1
+            $users = $query->paginate($limit, ['*'], 'page', $page);
+            $total = $users->total(); // This ensures total counts all matches, not just the paginated subset
+
+            // Prepare the response with pagination
+            $response = [
+                'data' => $users->items(),
+                'total' => $total,
+                'limit' => $limit,
+                'currentPage' => $users->currentPage(),
+                'lastPage' => $users->lastPage(),
+            ];
+        }
+
+        return response()->json($response);
     }
 
 
