@@ -75,59 +75,67 @@ class JobController extends Controller
     }
 
 
-
-
-    // Show the form for creating a new job.
-    public function create()
-    {
-        // Generally, the create method isn’t used for APIs, as the form handling is on the client side.
-    }
-
-    // Store a newly created job in storage.
+    /**
+     * Store a newly created job in storage.
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\Response
+     */
     public function store(Request $request)
     {
-        $validated = $request->validate([
+        // Validate incoming request data
+        $validatedData = $request->validate([
             'name' => 'required|string|max:255',
-            'status' => 'required|integer',
-            'revenue' => 'required|numeric',
-            'material_cost' => 'required|numeric',
-            'detail' => 'required|string',
-            'date' => 'nullable|date',
+            'detail' => 'nullable|string',
+            'revenue' => 'nullable|numeric',
+            'material_cost' => 'nullable|numeric',
+            'status' => 'nullable|integer',
         ]);
 
-        $job = Job::create($validated);
-        return response()->json($job, 201);
+        // Create and save the new job
+        $job = Job::create([
+            'name' => $validatedData['name'],
+            'detail' => $validatedData['detail'],
+            'revenue' => $validatedData['revenue'],
+            'material_cost' => $validatedData['material_cost'],
+            'status' => $validatedData['status'] ?? null,
+        ]);
+
+        return response()->json(['message' => 'Job created successfully', 'job' => $job], 201);
     }
 
     // Display the specified job.
-    public function show(Job $job)
-    {
-        return response()->json($job);
-    }
+    // public function show(Job $job)
+    // {
+    //     return response()->json($job);
+    // }
 
-    // Show the form for editing the specified job.
-    public function edit(Job $job)
+    /**
+     * Update the specified job in storage.
+     *
+     * @param Request $request
+     * @param int $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, $id)
     {
-        // Similarly, the edit method is not typically used in APIs.
-    }
+        $job = Job::find($id);
+        if (!$job) {
+            return response()->json(['message' => 'Job not found'], 404);
+        }
 
-    // Update the specified job in storage.
-    public function update(Request $request, Job $job)
-    {
-        $validated = $request->validate([
-            'name' => 'string|max:255',
-            'status' => 'integer',
-            'revenue' => 'numeric',
-            'material_cost' => 'numeric',
-            'detail' => 'string',
-            'date' => 'date',
+        $validatedData = $request->validate([
+            'name' => 'required|string|max:255',
+            'detail' => 'nullable|string',
+            'revenue' => 'nullable|numeric',
+            'material_cost' => 'nullable|numeric',
+            'status' => 'nullable|integer',
         ]);
 
-        $job->update($validated);
-        return response()->json($job);
+        $job->update($validatedData);
+
+        return response()->json(['message' => 'Job updated successfully', 'job' => $job]);
     }
-
-
 
 
 
