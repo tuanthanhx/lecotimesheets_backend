@@ -30,6 +30,12 @@ class User extends Authenticatable implements JWTSubject
         'status',
     ];
 
+    protected $casts = [
+        'hourly_rate' => 'float',
+        'group' => 'integer',
+        'status' => 'integer',
+    ];
+
     /**
      * The attributes that should be hidden for serialization.
      *

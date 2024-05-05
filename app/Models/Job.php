@@ -12,8 +12,9 @@ class Job extends Model
     protected $fillable = ['name', 'status', 'revenue', 'material_cost', 'detail', 'date'];
 
     protected $casts = [
+        'status' => 'integer',
         'date' => 'date',
-        'revenue' => 'decimal:2',
-        'material_cost' => 'decimal:2',
+        'revenue' => 'float',
+        'material_cost' => 'float',
     ];
 }
