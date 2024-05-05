@@ -28,3 +28,11 @@ Run some seeds:
 ```sh
 php artisan db:seed --class=UserSeeder
 ```
+
+## SOME PASSWORD:
+
+DB in production:
+
+DB Name: lecopain_timesheets_2024
+Username: lecopain_timesheets_2024
+Password: P7m2Vk05lPFk
