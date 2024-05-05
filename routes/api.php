@@ -6,6 +6,11 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\JobController;
 use App\Http\Controllers\SettingController;
 
+// Test
+Route::get('/hello', function () {
+    return 'Hello, World!';
+});
+
 // Auth
 Route::group([
     'middleware' => 'api',
@@ -23,12 +28,12 @@ Route::group([
     'middleware' => 'api',
     'prefix' => 'users'
 ], function ($router) {
-    Route::get('/', [UserController::class, 'index'])->middleware('auth:api')->name('users/index');
-    Route::post('/', [UserController::class, 'store'])->middleware('auth:api')->name('users/store');
-    Route::put('/{id}', [UserController::class, 'update'])->middleware('auth:api')->name('users/update');
-    Route::post('/{id}/activate', [UserController::class, 'activate'])->middleware('auth:api')->name('users/activate');
-    Route::post('/{id}/deactivate', [UserController::class, 'deactivate'])->middleware('auth:api')->name('users/deactivate');
-    Route::delete('/{id}', [UserController::class, 'destroy'])->middleware('auth:api')->name('users/destroy');
+    Route::get('/', [UserController::class, 'index'])->middleware('auth:api')->name('users.index');
+    Route::post('/', [UserController::class, 'store'])->middleware('auth:api')->name('users.store');
+    Route::put('/{id}', [UserController::class, 'update'])->middleware('auth:api')->name('users.update');
+    Route::post('/{id}/activate', [UserController::class, 'activate'])->middleware('auth:api')->name('users.activate');
+    Route::post('/{id}/deactivate', [UserController::class, 'deactivate'])->middleware('auth:api')->name('users.deactivate');
+    Route::delete('/{id}', [UserController::class, 'destroy'])->middleware('auth:api')->name('users.destroy');
 });
 
 // Jobs
@@ -36,11 +41,11 @@ Route::group([
     'middleware' => 'api',
     'prefix' => 'jobs'
 ], function ($router) {
-    Route::get('/', [JobController::class, 'index'])->middleware('auth:api')->name('jobs/index');
-    // Route::post('/', [JobController::class, 'update'])->middleware('auth:api')->name('jobs/update');
-    Route::post('/{id}/activate', [JobController::class, 'activate'])->middleware('auth:api')->name('jobs/activate');
-    Route::post('/{id}/deactivate', [JobController::class, 'deactivate'])->middleware('auth:api')->name('jobs/deactivate');
-    Route::delete('/{id}', [JobController::class, 'destroy'])->middleware('auth:api')->name('jobs/destroy');
+    Route::get('/', [JobController::class, 'index'])->middleware('auth:api')->name('jobs.index');
+    // Route::post('/', [JobController::class, 'update'])->middleware('auth:api')->name('jobs.update');
+    Route::post('/{id}/activate', [JobController::class, 'activate'])->middleware('auth:api')->name('jobs.activate');
+    Route::post('/{id}/deactivate', [JobController::class, 'deactivate'])->middleware('auth:api')->name('jobs.deactivate');
+    Route::delete('/{id}', [JobController::class, 'destroy'])->middleware('auth:api')->name('jobs.destroy');
 });
 
 // Settings
@@ -48,6 +53,6 @@ Route::group([
     'middleware' => 'api',
     'prefix' => 'settings'
 ], function ($router) {
-    Route::get('/', [SettingController::class, 'index'])->middleware('auth:api')->name('settings/index');
-    Route::post('/', [SettingController::class, 'update'])->middleware('auth:api')->name('settings/update');
+    Route::get('/', [SettingController::class, 'index'])->middleware('auth:api')->name('settings.index');
+    Route::post('/', [SettingController::class, 'update'])->middleware('auth:api')->name('settings.update');
 });

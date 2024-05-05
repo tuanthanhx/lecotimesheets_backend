@@ -2,7 +2,8 @@
     "private": true,
     "type": "module",
     "scripts": {
-        "dev": "php artisan serve --host localhost --port=3000"
+        "dev": "php artisan serve --host localhost --port=3000",
+        "cache": "php artisan config:clear && php artisan cache:clear && php artisan route:clear && php artisan view:clear"
     },
     "devDependencies": {
         "axios": "^1.6.4",
