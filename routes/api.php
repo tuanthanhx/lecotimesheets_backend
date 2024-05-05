@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\JobController;
 use App\Http\Controllers\SettingController;
 
 // Auth
@@ -28,6 +29,18 @@ Route::group([
     Route::post('/{id}/activate', [UserController::class, 'activate'])->middleware('auth:api')->name('users/activate');
     Route::post('/{id}/deactivate', [UserController::class, 'deactivate'])->middleware('auth:api')->name('users/deactivate');
     Route::delete('/{id}', [UserController::class, 'destroy'])->middleware('auth:api')->name('users/destroy');
+});
+
+// Jobs
+Route::group([
+    'middleware' => 'api',
+    'prefix' => 'jobs'
+], function ($router) {
+    Route::get('/', [JobController::class, 'index'])->middleware('auth:api')->name('jobs/index');
+    // Route::post('/', [JobController::class, 'update'])->middleware('auth:api')->name('jobs/update');
+    Route::post('/{id}/activate', [JobController::class, 'activate'])->middleware('auth:api')->name('jobs/activate');
+    Route::post('/{id}/deactivate', [JobController::class, 'deactivate'])->middleware('auth:api')->name('jobs/deactivate');
+    Route::delete('/{id}', [JobController::class, 'destroy'])->middleware('auth:api')->name('jobs/destroy');
 });
 
 // Settings

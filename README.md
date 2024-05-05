@@ -6,6 +6,12 @@
 php artisan serve --host localhost --port=3000
 ```
 
+### MIGRATE:
+```sh:
+php artisan db:seed
+php artisan db:seed --class=userSeeder
+```
+
 ### SEEDS:
 
 Make a new seed:

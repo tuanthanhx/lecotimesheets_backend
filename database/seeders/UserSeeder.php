@@ -15,10 +15,10 @@ class UserSeeder extends Seeder
     public function run(): void
     {
         User::create([
-            'name' => 'Alice Johnson',
-            'username' => 'alicej',
+            'name' => 'Administrator',
+            'username' => 'admin',
             'password' => Hash::make('123456'),
-            'group' => 2,
+            'group' => 6,
             'hourly_rate' => 25.00,
             'dob' => '1985-08-25',
             'address' => '1234 Maple Street',
@@ -29,7 +29,7 @@ class UserSeeder extends Seeder
 
         User::create([
             'name' => 'Bob Smith',
-            'username' => 'bobsmith',
+            'username' => 'user',
             'password' => Hash::make('123456'),
             'group' => 2,
             'hourly_rate' => 30.00,

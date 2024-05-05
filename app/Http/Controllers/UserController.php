@@ -177,7 +177,7 @@ class UserController extends Controller
 
         $user->update(['status' => 1]);
 
-        return response()->json(['message' => 'User deleted successfully'], 200);
+        return response()->json(['message' => 'User activated successfully'], 200);
     }
 
 
@@ -197,7 +197,7 @@ class UserController extends Controller
 
         $user->update(['status' => 2]);
 
-        return response()->json(['message' => 'User deleted successfully'], 200);
+        return response()->json(['message' => 'User deactivated successfully'], 200);
     }
 
 
