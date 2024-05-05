@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\SettingController;
 
 // Auth
 Route::group([
@@ -21,10 +22,19 @@ Route::group([
     'middleware' => 'api',
     'prefix' => 'users'
 ], function ($router) {
-    Route::get('/', [UserController::class, 'index'])->middleware('auth:api')->name('index');
-    Route::post('/', [UserController::class, 'store'])->middleware('auth:api')->name('store');
-    Route::put('/{id}', [UserController::class, 'update'])->middleware('auth:api')->name('update');
-    Route::post('/{id}/activate', [UserController::class, 'activate'])->middleware('auth:api')->name('activate');
-    Route::post('/{id}/deactivate', [UserController::class, 'deactivate'])->middleware('auth:api')->name('deactivate');
-    Route::delete('/{id}', [UserController::class, 'destroy'])->middleware('auth:api')->name('destroy');
+    Route::get('/', [UserController::class, 'index'])->middleware('auth:api')->name('users/index');
+    Route::post('/', [UserController::class, 'store'])->middleware('auth:api')->name('users/store');
+    Route::put('/{id}', [UserController::class, 'update'])->middleware('auth:api')->name('users/update');
+    Route::post('/{id}/activate', [UserController::class, 'activate'])->middleware('auth:api')->name('users/activate');
+    Route::post('/{id}/deactivate', [UserController::class, 'deactivate'])->middleware('auth:api')->name('users/deactivate');
+    Route::delete('/{id}', [UserController::class, 'destroy'])->middleware('auth:api')->name('users/destroy');
+});
+
+// Settings
+Route::group([
+    'middleware' => 'api',
+    'prefix' => 'settings'
+], function ($router) {
+    Route::get('/', [SettingController::class, 'index'])->middleware('auth:api')->name('settings/index');
+    Route::post('/', [SettingController::class, 'update'])->middleware('auth:api')->name('settings/update');
 });
