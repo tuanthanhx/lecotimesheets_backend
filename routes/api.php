@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\JobController;
+use App\Http\Controllers\TimesheetController;
 use App\Http\Controllers\SettingController;
 
 // Test
@@ -47,6 +48,19 @@ Route::group([
     Route::post('/{id}/activate', [JobController::class, 'activate'])->middleware('auth:api')->name('jobs.activate');
     Route::post('/{id}/deactivate', [JobController::class, 'deactivate'])->middleware('auth:api')->name('jobs.deactivate');
     Route::delete('/{id}', [JobController::class, 'destroy'])->middleware('auth:api')->name('jobs.destroy');
+});
+
+// Timesheets
+Route::group([
+    'middleware' => 'api',
+    'prefix' => 'timesheets'
+], function ($router) {
+    Route::get('/', [TimesheetController::class, 'index'])->middleware('auth:api')->name('timesheets.index');
+    // Route::post('/', [TimesheetController::class, 'store'])->middleware('auth:api')->name('timesheets.store');
+    // Route::put('/{id}', [TimesheetController::class, 'update'])->middleware('auth:api')->name('timesheets.update');
+    // Route::post('/{id}/approve', [TimesheetController::class, 'activate'])->middleware('auth:api')->name('timesheets.approve');
+    // Route::post('/{id}/unapprove', [TimesheetController::class, 'deactivate'])->middleware('auth:api')->name('timesheets.unapprove');
+    Route::delete('/{id}', [TimesheetController::class, 'destroy'])->middleware('auth:api')->name('timesheets.destroy');
 });
 
 // Settings

@@ -78,7 +78,11 @@ class AuthController extends Controller
      */
     public function is_login()
     {
-        return response()->json(['logged_in' => auth()->check()]);
+        $user = auth()->user();
+        return response()->json([
+            'username' => $user->username,
+            'group' => $user->group,
+        ]);
     }
 
     /**
@@ -127,9 +131,8 @@ class AuthController extends Controller
             'access_token' => $token,
             'token_type' => 'bearer',
             'expires_in' => auth()->factory()->getTTL() * 60,
-            'name' => $user->name,
             'username' => $user->username,
-            'is_admin' => $user->group == 6 ? true : false,
+            'group' => $user->group,
         ]);
     }
 }

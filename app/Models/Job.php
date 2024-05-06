@@ -17,4 +17,9 @@ class Job extends Model
         'revenue' => 'float',
         'material_cost' => 'float',
     ];
+
+    public function timesheets()
+    {
+        return $this->hasMany(Timesheet::class);
+    }
 }

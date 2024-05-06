@@ -2,18 +2,26 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Job;
+use App\Models\Timesheet;
 use Illuminate\Http\Request;
 
-class JobController extends Controller
+class TimesheetController extends Controller
 {
-    // Display a listing of the jobs.
+    // Display a listing of the timesheets.
     public function index(Request $request)
     {
-        $authUser = auth()->user();
+        // $timesheets = Timesheet::all();
+        // return response()->json($timesheets);
 
         // Start the query
-        $query = Job::orderBy('id', 'desc');
+        $query = Timesheet::with([
+            'user' => function ($query) {
+                $query->select('id', 'name');
+            },
+            'job' => function ($query) {
+                $query->select('id', 'name');
+            }
+        ])->orderBy('id', 'desc');
 
         // Check if a keyword was provided
         if ($request->filled('keyword')) {
@@ -39,16 +47,12 @@ class JobController extends Controller
 
         // Handle 'show all' case when limit is set to -1
         if ($limit == -1) {
-            $jobs = $query->get(); // Fetch all jobs matching the criteria
-            $total = $jobs->count(); // Count the jobs
-
-            if ($authUser->group != 6) {
-                $jobs->makeHidden(['revenue', 'material_cost']);
-            }
+            $timesheets = $query->get(); // Fetch all timesheets matching the criteria
+            $total = $timesheets->count(); // Count the timesheets
 
             // Prepare the response for 'all' data
             $response = [
-                'data' => $jobs,
+                'data' => $timesheets,
                 'total' => $total,
                 'limit' => -1,
                 'currentPage' => 1,
@@ -61,20 +65,16 @@ class JobController extends Controller
             }
 
             // Apply pagination if limit is not -1
-            $jobs = $query->paginate($limit, ['*'], 'page', $page);
-            $total = $jobs->total(); // This ensures total counts all matches, not just the paginated subset
-
-            if ($authUser->group != 6) {
-                $jobs->makeHidden(['revenue', 'material_cost']);
-            }
+            $timesheets = $query->paginate($limit, ['*'], 'page', $page);
+            $total = $timesheets->total(); // This ensures total counts all matches, not just the paginated subset
 
             // Prepare the response with pagination
             $response = [
-                'data' => $jobs->items(),
+                'data' => $timesheets->items(),
                 'total' => $total,
                 'limit' => $limit,
-                'currentPage' => $jobs->currentPage(),
-                'lastPage' => $jobs->lastPage(),
+                'currentPage' => $timesheets->currentPage(),
+                'lastPage' => $timesheets->lastPage(),
             ];
         }
 
@@ -83,7 +83,7 @@ class JobController extends Controller
 
 
     /**
-     * Store a newly created job in storage.
+     * Store a newly created timesheet in storage.
      *
      * @param Request $request
      * @return \Illuminate\Http\Response
@@ -99,8 +99,8 @@ class JobController extends Controller
             'status' => 'nullable|integer',
         ]);
 
-        // Create and save the new job
-        $job = Job::create([
+        // Create and save the new timesheet
+        $timesheet = Timesheet::create([
             'name' => $validatedData['name'],
             'detail' => $validatedData['detail'],
             'revenue' => $validatedData['revenue'],
@@ -108,17 +108,17 @@ class JobController extends Controller
             'status' => $validatedData['status'] ?? null,
         ]);
 
-        return response()->json(['message' => 'Job created successfully', 'job' => $job], 201);
+        return response()->json(['message' => 'Job created successfully', 'timesheet' => $timesheet], 201);
     }
 
-    // Display the specified job.
-    // public function show(Job $job)
+    // Display the specified timesheet.
+    // public function show(Job $timesheet)
     // {
-    //     return response()->json($job);
+    //     return response()->json($timesheet);
     // }
 
     /**
-     * Update the specified job in storage.
+     * Update the specified timesheet in storage.
      *
      * @param Request $request
      * @param int $id
@@ -126,8 +126,8 @@ class JobController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $job = Job::find($id);
-        if (!$job) {
+        $timesheet = Timesheet::find($id);
+        if (!$timesheet) {
             return response()->json(['message' => 'Job not found'], 404);
         }
 
@@ -139,28 +139,28 @@ class JobController extends Controller
             'status' => 'nullable|integer',
         ]);
 
-        $job->update($validatedData);
+        $timesheet->update($validatedData);
 
-        return response()->json(['message' => 'Job updated successfully', 'job' => $job]);
+        return response()->json(['message' => 'Job updated successfully', 'timesheet' => $timesheet]);
     }
 
 
 
     /**
-     * Activate the specified job in storage.
+     * Activate the specified timesheet in storage.
      *
      * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function activate($id)
     {
-        $job = Job::find($id);
+        $timesheet = Timesheet::find($id);
 
-        if (!$job) {
+        if (!$timesheet) {
             return response()->json(['message' => 'Job not found'], 404);
         }
 
-        $job->update(['status' => 1]);
+        $timesheet->update(['status' => 1]);
 
         return response()->json(['message' => 'Job activated successfully'], 200);
     }
@@ -168,40 +168,40 @@ class JobController extends Controller
 
 
     /**
-     * Deactivate the specified job in storage.
+     * Deactivate the specified timesheet in storage.
      *
      * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function deactivate($id)
     {
-        $job = Job::find($id);
+        $timesheet = Timesheet::find($id);
 
-        if (!$job) {
+        if (!$timesheet) {
             return response()->json(['message' => 'Job not found'], 404);
         }
 
-        $job->update(['status' => 2]);
+        $timesheet->update(['status' => 2]);
 
         return response()->json(['message' => 'Job deactivated successfully'], 200);
     }
 
 
     /**
-     * Remove the specified job from storage.
+     * Remove the specified timesheet from storage.
      *
      * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
-        $job = Job::find($id);
+        $timesheet = Timesheet::find($id);
 
-        if (!$job) {
+        if (!$timesheet) {
             return response()->json(['message' => 'Job not found'], 404);
         }
 
-        $job->delete();
+        $timesheet->delete();
 
         return response()->json(['message' => 'Job deleted successfully'], 200);
     }

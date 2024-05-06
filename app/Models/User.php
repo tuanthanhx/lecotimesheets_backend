@@ -58,6 +58,13 @@ class User extends Authenticatable implements JWTSubject
         ];
     }
 
+
+    // Timesheets relationship
+    public function timesheets()
+    {
+        return $this->hasMany(Timesheet::class);
+    }
+
     /**
      * Get the identifier that will be stored in the subject claim of the JWT.
      *

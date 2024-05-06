@@ -6,10 +6,15 @@
 php artisan serve --host localhost --port=3000
 ```
 
+### MAKE MODEL:
+```sh:
+php artisan make:model User -m
+```
+
+
 ### MIGRATE:
 ```sh:
-php artisan db:seed
-php artisan db:seed --class=userSeeder
+php artisan migrate
 ```
 
 ### SEEDS:
@@ -27,6 +32,12 @@ php artisan db:seed
 Run some seeds:
 ```sh
 php artisan db:seed --class=UserSeeder
+```
+
+### MAKE CONTROLLER
+
+```sh:
+php artisan make:controller User
 ```
 
 ## SOME PASSWORD:
