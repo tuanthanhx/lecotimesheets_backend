@@ -23,12 +23,14 @@ class TimesheetController extends Controller
             }
         ])->orderBy('id', 'desc');
 
-        // Check if a keyword was provided
-        if ($request->filled('keyword')) {
-            $keyword = $request->keyword;
-            $query->where(function ($q) use ($keyword) {
-                $q->where('name', 'like', "%$keyword%");
-            });
+        // Check if a job was provided
+        if ($request->filled('job')) {
+            $query->where('job_id', $request->job);
+        }
+
+        // Check if a user was provided
+        if ($request->filled('user')) {
+            $query->where('user_id', $request->user);
         }
 
         // Check if a status was provided
@@ -146,25 +148,28 @@ class TimesheetController extends Controller
 
 
 
+
+
+
+
     /**
      * Activate the specified timesheet in storage.
      *
      * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function activate($id)
+    public function approve($id)
     {
         $timesheet = Timesheet::find($id);
 
         if (!$timesheet) {
-            return response()->json(['message' => 'Job not found'], 404);
+            return response()->json(['message' => 'Timesheet not found'], 404);
         }
 
-        $timesheet->update(['status' => 1]);
+        $timesheet->update(['status' => 2]);
 
-        return response()->json(['message' => 'Job activated successfully'], 200);
+        return response()->json(['message' => 'Timesheet approved successfully'], 200);
     }
-
 
 
     /**
@@ -173,17 +178,17 @@ class TimesheetController extends Controller
      * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function deactivate($id)
+    public function unapprove($id)
     {
         $timesheet = Timesheet::find($id);
 
         if (!$timesheet) {
-            return response()->json(['message' => 'Job not found'], 404);
+            return response()->json(['message' => 'Timesheet not found'], 404);
         }
 
-        $timesheet->update(['status' => 2]);
+        $timesheet->update(['status' => 1]);
 
-        return response()->json(['message' => 'Job deactivated successfully'], 200);
+        return response()->json(['message' => 'Timesheet unapproved successfully'], 200);
     }
 
 

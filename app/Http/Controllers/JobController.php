@@ -42,8 +42,8 @@ class JobController extends Controller
             $jobs = $query->get(); // Fetch all jobs matching the criteria
             $total = $jobs->count(); // Count the jobs
 
-            if ($authUser->group != 6) {
-                $jobs->makeHidden(['revenue', 'material_cost']);
+            if ($authUser->group == 6) {
+                $jobs->makeVisible(['revenue', 'material_cost']);
             }
 
             // Prepare the response for 'all' data
@@ -64,8 +64,8 @@ class JobController extends Controller
             $jobs = $query->paginate($limit, ['*'], 'page', $page);
             $total = $jobs->total(); // This ensures total counts all matches, not just the paginated subset
 
-            if ($authUser->group != 6) {
-                $jobs->makeHidden(['revenue', 'material_cost']);
+            if ($authUser->group == 6) {
+                $jobs->makeVisible(['revenue', 'material_cost']);
             }
 
             // Prepare the response with pagination

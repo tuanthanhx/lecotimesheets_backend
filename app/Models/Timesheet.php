@@ -28,8 +28,8 @@ class Timesheet extends Model
     protected $casts = [
         'status' => 'integer',
         'date' => 'date',
-        // 'start_time' => 'time', // TODO : RESEARCH LATER
-        // 'end_time' => 'time', // TODO : RESEARCH LATER
+        'start_time' => 'datetime:H:i',
+        'end_time' => 'datetime:H:i',
     ];
 
     // User relationship

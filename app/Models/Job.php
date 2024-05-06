@@ -11,6 +11,11 @@ class Job extends Model
 
     protected $fillable = ['name', 'status', 'revenue', 'material_cost', 'detail', 'date'];
 
+    protected $hidden = [
+        'revenue',
+        'material_cost',
+    ];
+
     protected $casts = [
         'status' => 'integer',
         'date' => 'date',
