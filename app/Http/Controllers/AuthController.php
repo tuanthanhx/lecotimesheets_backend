@@ -64,7 +64,7 @@ class AuthController extends Controller
             return response()->json(['error' => 'Deactivated'], 401);
         }
 
-        if (! $token = auth()->attempt($credentials)) {
+        if (!$token = auth()->attempt($credentials)) {
             return response()->json(['error' => 'Unauthorized'], 401);
         }
 
@@ -127,12 +127,15 @@ class AuthController extends Controller
     protected function respondWithToken($token)
     {
         $user = auth()->user();
-        return response()->json([
+        $response = [
             'access_token' => $token,
             'token_type' => 'bearer',
             'expires_in' => auth()->factory()->getTTL() * 60,
-            'username' => $user->username,
-            'group' => $user->group,
-        ]);
+        ];
+        if ($user) {
+            $response['username'] = $user->username;
+            $response['group'] = $user->group;
+        }
+        return response()->json($response);
     }
 }
