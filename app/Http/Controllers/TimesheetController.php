@@ -97,36 +97,55 @@ class TimesheetController extends Controller
      */
     public function store(Request $request)
     {
+
+        $authUser = auth()->user();
+
         // Validate incoming request data
-        $validatedData = $request->validate([
-            'user_id' => 'required|integer',
+
+        $rules = [
             'job_id' => 'required|integer',
             'date' => 'required|date',
             'start_time' => 'required|string|max:8',
             'end_time' => 'required|string|max:8',
             'break' => 'nullable|boolean',
-            'status' => 'required|integer',
             'note' => 'nullable|string',
-        ]);
+        ];
 
-        // Create and save the new timesheet
-        $timesheet = Timesheet::create([
-            'user_id' => $validatedData['user_id'],
+        if ($authUser->group == 6) {
+            $rules['user_id'] = 'required|integer';
+            $rules['status'] = 'required|integer';
+        }
+
+        $validatedData = $request->validate($rules);
+
+        if ($authUser->group != 6) {
+            $validatedData['status'] = 1;
+            $validatedData['user_id'] = $authUser->id;
+        }
+
+        // Prepare the data for the new item
+        $data = [
             'job_id' => $validatedData['job_id'],
             'date' => isset($validatedData['date']) ? date('Y-m-d', strtotime($validatedData['date'])) : null,
             'start_time' => $validatedData['start_time'],
             'end_time' => $validatedData['end_time'],
             'break' => $validatedData['break'] ?? false,
-            'status' => $validatedData['status'],
             'note' => $validatedData['note'] ?? null,
-        ]);
+        ];
+
+        if ($authUser->group == 6) {
+            $data['user_id'] = $validatedData['user_id'];
+            $data['status'] = $validatedData['status'];
+        } else {
+            $data['user_id'] = $authUser->id;
+            $data['status'] = 1;
+        }
+
+        // Create and save the new timesheet
+        $timesheet = Timesheet::create($data);
 
         return response()->json(['message' => 'Timesheet created successfully', 'timesheet' => $timesheet], 201);
     }
-
-
-
-
 
 
     /**
@@ -138,28 +157,51 @@ class TimesheetController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $authUser = auth()->user();
+
         $timesheet = Timesheet::find($id);
         if (!$timesheet) {
-            return response()->json(['message' => 'Job not found'], 404);
+            return response()->json(['message' => 'Timesheet not found'], 404);
         }
 
-        $validatedData = $request->validate([
-            'name' => 'required|string|max:255',
-            'detail' => 'nullable|string',
-            'revenue' => 'nullable|numeric',
-            'material_cost' => 'nullable|numeric',
-            'status' => 'nullable|integer',
+        $rules = [
+            'job_id' => 'required|integer',
+            'date' => 'required|date',
+            'start_time' => 'required|string|max:8',
+            'end_time' => 'required|string|max:8',
+            'break' => 'nullable|boolean',
+            'note' => 'nullable|string',
+        ];
+
+        if ($authUser->group == 6) {
+            $rules['user_id'] = 'required|integer';
+            $rules['status'] = 'required|integer';
+        }
+
+        $validatedData = $request->validate($rules);
+
+        if ($request->has('date')) {
+            $validatedData['date'] = date('Y-m-d', strtotime($validatedData['date']));
+        }
+
+        $data = array_filter([
+            'job_id' => $validatedData['job_id'] ?? null,
+            'date' => isset($validatedData['date']) ? date('Y-m-d', strtotime($validatedData['date'])) : null,
+            'start_time' => $validatedData['start_time'] ?? null,
+            'end_time' => $validatedData['end_time'] ?? null,
+            'break' => $validatedData['break'] ?? false,
+            'note' => $validatedData['note'] ?? null,
         ]);
 
-        $timesheet->update($validatedData);
+        if ($authUser->group == 6) {
+            $data['user_id'] = $validatedData['user_id'];
+            $data['status'] = $validatedData['status'];
+        }
 
-        return response()->json(['message' => 'Job updated successfully', 'timesheet' => $timesheet]);
+        $timesheet->update($data);
+
+        return response()->json(['message' => 'Timesheet updated successfully', 'timesheet' => $timesheet]);
     }
-
-
-
-
-
 
 
     /**

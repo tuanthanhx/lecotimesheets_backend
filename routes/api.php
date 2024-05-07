@@ -57,7 +57,7 @@ Route::group([
 ], function ($router) {
     Route::get('/', [TimesheetController::class, 'index'])->middleware('auth:api')->name('timesheets.index');
     Route::post('/', [TimesheetController::class, 'store'])->middleware('auth:api')->name('timesheets.store');
-    // Route::put('/{id}', [TimesheetController::class, 'update'])->middleware('auth:api')->name('timesheets.update');
+    Route::put('/{id}', [TimesheetController::class, 'update'])->middleware('auth:api')->name('timesheets.update');
     Route::post('/{id}/approve', [TimesheetController::class, 'approve'])->middleware('auth:api')->name('timesheets.approve');
     Route::post('/{id}/unapprove', [TimesheetController::class, 'unapprove'])->middleware('auth:api')->name('timesheets.unapprove');
     Route::delete('/{id}', [TimesheetController::class, 'destroy'])->middleware('auth:api')->name('timesheets.destroy');
