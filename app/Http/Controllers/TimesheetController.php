@@ -11,6 +11,8 @@ class TimesheetController extends Controller
     public function index(Request $request)
     {
 
+        $authUser = auth()->user();
+
         // Start the query
         $query = Timesheet::with([
             'user' => function ($query) {
@@ -20,6 +22,11 @@ class TimesheetController extends Controller
                 $query->select('id', 'name');
             }
         ])->orderBy('id', 'desc');
+
+        // Member can see their timesheets only
+        if ($authUser->group != 6) {
+            $query->where('user_id', $authUser->id);
+        }
 
         // Check if a type was provided
         if ($request->filled('type')) {
@@ -193,6 +200,10 @@ class TimesheetController extends Controller
             'note' => $validatedData['note'] ?? null,
         ]);
 
+        if ($request->has('break')) {
+            $data['break'] = $validatedData['break'];
+        }
+
         if ($authUser->group == 6) {
             $data['user_id'] = $validatedData['user_id'];
             $data['status'] = $validatedData['status'];
@@ -200,7 +211,7 @@ class TimesheetController extends Controller
 
         $timesheet->update($data);
 
-        return response()->json(['message' => 'Timesheet updated successfully', 'timesheet' => $timesheet]);
+        return response()->json(['message' => 'Timesheet updated successfully', 'timesheet' => $timesheet, 'data' => $data]);
     }
 
 
