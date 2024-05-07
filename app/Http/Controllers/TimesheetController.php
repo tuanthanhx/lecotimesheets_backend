@@ -10,8 +10,6 @@ class TimesheetController extends Controller
     // Display a listing of the timesheets.
     public function index(Request $request)
     {
-        // $timesheets = Timesheet::all();
-        // return response()->json($timesheets);
 
         // Start the query
         $query = Timesheet::with([
@@ -22,6 +20,13 @@ class TimesheetController extends Controller
                 $query->select('id', 'name');
             }
         ])->orderBy('id', 'desc');
+
+        // Check if a type was provided
+        if ($request->filled('type')) {
+            if ($request->type === 'unpaid') {
+                $query->whereIn('status', [1, 2]);
+            }
+        }
 
         // Check if a job was provided
         if ($request->filled('job')) {
@@ -94,30 +99,35 @@ class TimesheetController extends Controller
     {
         // Validate incoming request data
         $validatedData = $request->validate([
-            'name' => 'required|string|max:255',
-            'detail' => 'nullable|string',
-            'revenue' => 'nullable|numeric',
-            'material_cost' => 'nullable|numeric',
-            'status' => 'nullable|integer',
+            'user_id' => 'required|integer',
+            'job_id' => 'required|integer',
+            'date' => 'required|date',
+            'start_time' => 'required|string|max:8',
+            'end_time' => 'required|string|max:8',
+            'break' => 'nullable|boolean',
+            'status' => 'required|integer',
+            'note' => 'nullable|string',
         ]);
 
         // Create and save the new timesheet
         $timesheet = Timesheet::create([
-            'name' => $validatedData['name'],
-            'detail' => $validatedData['detail'],
-            'revenue' => $validatedData['revenue'],
-            'material_cost' => $validatedData['material_cost'],
-            'status' => $validatedData['status'] ?? null,
+            'user_id' => $validatedData['user_id'],
+            'job_id' => $validatedData['job_id'],
+            'date' => isset($validatedData['date']) ? date('Y-m-d', strtotime($validatedData['date'])) : null,
+            'start_time' => $validatedData['start_time'],
+            'end_time' => $validatedData['end_time'],
+            'break' => $validatedData['break'] ?? false,
+            'status' => $validatedData['status'],
+            'note' => $validatedData['note'] ?? null,
         ]);
 
-        return response()->json(['message' => 'Job created successfully', 'timesheet' => $timesheet], 201);
+        return response()->json(['message' => 'Timesheet created successfully', 'timesheet' => $timesheet], 201);
     }
 
-    // Display the specified timesheet.
-    // public function show(Job $timesheet)
-    // {
-    //     return response()->json($timesheet);
-    // }
+
+
+
+
 
     /**
      * Update the specified timesheet in storage.
