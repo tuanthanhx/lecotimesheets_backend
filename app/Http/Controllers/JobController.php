@@ -15,6 +15,13 @@ class JobController extends Controller
         // Start the query
         $query = Job::orderBy('id', 'desc');
 
+        // Check if a type was provided
+        if ($request->filled('type')) {
+            if ($request->type === 'select') {
+                $query->select('id', 'name');
+            }
+        }
+
         // Check if a keyword was provided
         if ($request->filled('keyword')) {
             $keyword = $request->keyword;

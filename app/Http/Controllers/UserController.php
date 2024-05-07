@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-// use Illuminate\Support\Facades\Log;
 
 class UserController extends Controller
 {
@@ -20,6 +19,13 @@ class UserController extends Controller
         // Start the query with the specific group condition
         $query = User::where('group', 2)->orderBy('id', 'desc');
 
+        // Check if a type was provided
+        if ($request->filled('type')) {
+            if ($request->type === 'select') {
+                $query->select('id', 'name');
+            }
+        }
+
         // Check if a keyword was provided
         if ($request->filled('keyword')) {
             $keyword = $request->keyword;
@@ -31,7 +37,6 @@ class UserController extends Controller
 
         // Check if a status was provided
         if ($request->filled('status')) {
-            // Log::debug('$request->status ' . $request->status);
             $query->where('status', $request->status);
         }
 
