@@ -24,6 +24,8 @@ class TimesheetSeeder extends Seeder
             'start_time' => '08:00',
             'end_time' => '17:00',
             'break' => true,
+            'time_worked' => 8,
+            'amount' => 160,
             'status' => 1,
         ]);
         Timesheet::create([
@@ -36,6 +38,8 @@ class TimesheetSeeder extends Seeder
             'start_time' => '08:00',
             'end_time' => '17:00',
             'break' => true,
+            'time_worked' => 8,
+            'amount' => 160,
             'status' => 1,
         ]);
         Timesheet::create([
@@ -48,6 +52,8 @@ class TimesheetSeeder extends Seeder
             'start_time' => '08:00',
             'end_time' => '17:00',
             'break' => true,
+            'time_worked' => 8,
+            'amount' => 160,
             'status' => 1,
         ]);
         Timesheet::create([
@@ -60,6 +66,8 @@ class TimesheetSeeder extends Seeder
             'start_time' => '08:00',
             'end_time' => '17:00',
             'break' => true,
+            'time_worked' => 8,
+            'amount' => 160,
             'status' => 1,
         ]);
         Timesheet::create([
@@ -72,6 +80,8 @@ class TimesheetSeeder extends Seeder
             'start_time' => '08:00',
             'end_time' => '17:00',
             'break' => true,
+            'time_worked' => 8,
+            'amount' => 160,
             'status' => 1,
         ]);
         Timesheet::create([
@@ -84,6 +94,8 @@ class TimesheetSeeder extends Seeder
             'start_time' => '08:00',
             'end_time' => '17:00',
             'break' => true,
+            'time_worked' => 8,
+            'amount' => 160,
             'status' => 1,
         ]);
         Timesheet::create([
@@ -96,6 +108,8 @@ class TimesheetSeeder extends Seeder
             'start_time' => '08:00',
             'end_time' => '17:00',
             'break' => true,
+            'time_worked' => 8,
+            'amount' => 160,
             'status' => 1,
         ]);
         Timesheet::create([
@@ -108,6 +122,8 @@ class TimesheetSeeder extends Seeder
             'start_time' => '08:00',
             'end_time' => '17:00',
             'break' => true,
+            'time_worked' => 8,
+            'amount' => 160,
             'status' => 1,
         ]);
         Timesheet::create([
@@ -120,6 +136,8 @@ class TimesheetSeeder extends Seeder
             'start_time' => '08:00',
             'end_time' => '17:00',
             'break' => true,
+            'time_worked' => 8,
+            'amount' => 160,
             'status' => 1,
         ]);
         Timesheet::create([
@@ -132,6 +150,8 @@ class TimesheetSeeder extends Seeder
             'start_time' => '08:00',
             'end_time' => '17:00',
             'break' => true,
+            'time_worked' => 8,
+            'amount' => 160,
             'status' => 1,
         ]);
         Timesheet::create([
@@ -144,6 +164,8 @@ class TimesheetSeeder extends Seeder
             'start_time' => '08:00',
             'end_time' => '17:00',
             'break' => true,
+            'time_worked' => 8,
+            'amount' => 160,
             'status' => 1,
         ]);
         Timesheet::create([
@@ -156,6 +178,8 @@ class TimesheetSeeder extends Seeder
             'start_time' => '08:00',
             'end_time' => '17:00',
             'break' => true,
+            'time_worked' => 8,
+            'amount' => 160,
             'status' => 2,
         ]);
         Timesheet::create([
@@ -168,6 +192,8 @@ class TimesheetSeeder extends Seeder
             'start_time' => '08:00',
             'end_time' => '17:00',
             'break' => true,
+            'time_worked' => 8,
+            'amount' => 160,
             'status' => 2,
         ]);
         Timesheet::create([
@@ -180,6 +206,8 @@ class TimesheetSeeder extends Seeder
             'start_time' => '08:00',
             'end_time' => '17:00',
             'break' => true,
+            'time_worked' => 8,
+            'amount' => 160,
             'status' => 2,
         ]);
         Timesheet::create([
@@ -192,6 +220,8 @@ class TimesheetSeeder extends Seeder
             'start_time' => '08:00',
             'end_time' => '17:00',
             'break' => true,
+            'time_worked' => 8,
+            'amount' => 160,
             'status' => 2,
         ]);
         Timesheet::create([
@@ -204,6 +234,8 @@ class TimesheetSeeder extends Seeder
             'start_time' => '08:00',
             'end_time' => '17:00',
             'break' => true,
+            'time_worked' => 8,
+            'amount' => 160,
             'status' => 2,
         ]);
     }

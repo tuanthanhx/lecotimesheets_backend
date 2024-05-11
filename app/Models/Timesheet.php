@@ -25,11 +25,15 @@ class Timesheet extends Model
         'start_time',
         'end_time',
         'break',
+        'time_worked',
+        'amount',
     ];
 
     protected $casts = [
         'status' => 'integer',
         'hourly_rate' => 'float',
+        'time_worked' => 'float',
+        'amount' => 'float',
         'date' => 'date',
         'start_time' => 'datetime:H:i',
         'end_time' => 'datetime:H:i',

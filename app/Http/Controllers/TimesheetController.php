@@ -3,10 +3,21 @@
 namespace App\Http\Controllers;
 
 use App\Models\Timesheet;
+use App\Models\User;
+use App\Services\TimeService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class TimesheetController extends Controller
 {
+
+    protected $timeService;
+
+    public function __construct(TimeService $timeService)
+    {
+        $this->timeService = $timeService;
+    }
+
     // Display a listing of the timesheets.
     public function index(Request $request)
     {
@@ -35,6 +46,9 @@ class TimesheetController extends Controller
             }
             if ($request->type === 'approved') {
                 $query->whereIn('status', [2]);
+            }
+            if ($request->type === 'report') {
+                $query->whereIn('status', [1, 2, 3]);
             }
         }
 
@@ -98,6 +112,22 @@ class TimesheetController extends Controller
         return response()->json($response);
     }
 
+    // Calculate unpaid amount for a user
+    public function calculateUnpaidAmount(Request $request)
+    {
+
+        // Start the query
+        $query = Timesheet::where('user_id', $request->user);
+
+        $timesheets = $query->get(); // Fetch all timesheets matching the criteria
+
+        // Prepare the response for 'all' data
+        $response = [
+            'data' => $timesheets
+        ];
+        return response()->json($response);
+    }
+
 
     /**
      * Store a newly created timesheet in storage.
@@ -107,7 +137,6 @@ class TimesheetController extends Controller
      */
     public function store(Request $request)
     {
-        // TODO: ADD HOURLY_RATE TOO
 
         $authUser = auth()->user();
 
@@ -151,6 +180,15 @@ class TimesheetController extends Controller
             $data['user_id'] = $authUser->id;
             $data['status'] = 1;
         }
+
+        $user = User::find($data['user_id']);
+        if (!$user) {
+            return response()->json(['message' => 'User not found'], 404);
+        }
+
+        $data['hourly_rate'] = $user->hourly_rate;
+        $data['time_worked'] = $this->timeService->calculateTimeWorked($data['start_time'], $data['end_time'], $data['break']);
+        $data['amount'] = $data['time_worked'] * $data['hourly_rate'];
 
         // Create and save the new timesheet
         $timesheet = Timesheet::create($data);
@@ -212,6 +250,17 @@ class TimesheetController extends Controller
             $data['user_id'] = $validatedData['user_id'];
             $data['status'] = $validatedData['status'];
         }
+
+        $userId = $authUser->group == 6 ? $validatedData['user_id'] : $authUser->id;
+
+        $user = User::find($userId);
+        if (!$user) {
+            return response()->json(['message' => 'User not found'], 404);
+        }
+
+        $data['hourly_rate'] = $user->hourly_rate;
+        $data['time_worked'] = $this->timeService->calculateTimeWorked($data['start_time'], $data['end_time'], $data['break']);
+        $data['amount'] = $data['time_worked'] * $data['hourly_rate'];
 
         $timesheet->update($data);
 

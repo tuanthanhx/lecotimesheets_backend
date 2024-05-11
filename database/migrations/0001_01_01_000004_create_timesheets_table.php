@@ -22,6 +22,8 @@ return new class extends Migration
             $table->time('start_time');
             $table->time('end_time');
             $table->boolean('break')->nullable();
+            $table->decimal('time_worked', 10, 2)->nullable();
+            $table->decimal('amount', 10, 2)->nullable();
             $table->text('note')->nullable();
             $table->timestamps();
         });

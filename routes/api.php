@@ -66,6 +66,7 @@ Route::group([
     'prefix' => 'timesheets'
 ], function ($router) {
     Route::get('/', [TimesheetController::class, 'index'])->middleware('auth:api')->name('timesheets.index');
+    Route::get('/unpaid', [TimesheetController::class, 'calculateUnpaidAmount'])->middleware('auth:api')->name('timesheets.unpaid');
     Route::post('/', [TimesheetController::class, 'store'])->middleware('auth:api')->name('timesheets.store');
     Route::put('/{id}', [TimesheetController::class, 'update'])->middleware('auth:api')->name('timesheets.update');
     Route::post('/{id}/approve', [TimesheetController::class, 'approve'])->middleware('auth:api')->name('timesheets.approve');
