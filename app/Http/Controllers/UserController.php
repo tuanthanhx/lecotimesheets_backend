@@ -17,7 +17,11 @@ class UserController extends Controller
     public function index(Request $request)
     {
         // Start the query with the specific group condition
-        $query = User::where('group', 2)->orderBy('id', 'desc');
+        $query = User::where('group', 2);
+
+        $sortField = $request->input('sortBy', 'id');
+        $sortDirection = $request->input('sortType', 'desc');
+        $query->orderBy($sortField, $sortDirection);
 
         // Check if a type was provided
         if ($request->filled('type')) {

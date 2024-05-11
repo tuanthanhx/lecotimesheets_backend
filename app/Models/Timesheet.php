@@ -17,8 +17,10 @@ class Timesheet extends Model
     protected $fillable = [
         'user_id',
         'job_id',
+        'payroll_id',
         'note',
         'status',
+        'hourly_rate',
         'date',
         'start_time',
         'end_time',
@@ -27,6 +29,7 @@ class Timesheet extends Model
 
     protected $casts = [
         'status' => 'integer',
+        'hourly_rate' => 'float',
         'date' => 'date',
         'start_time' => 'datetime:H:i',
         'end_time' => 'datetime:H:i',
@@ -42,6 +45,12 @@ class Timesheet extends Model
     public function job()
     {
         return $this->belongsTo(Job::class);
+    }
+
+    // Payroll relationship
+    public function payroll()
+    {
+        return $this->belongsTo(Payroll::class);
     }
 
 }

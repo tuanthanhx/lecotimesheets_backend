@@ -33,6 +33,9 @@ class TimesheetController extends Controller
             if ($request->type === 'unpaid') {
                 $query->whereIn('status', [1, 2]);
             }
+            if ($request->type === 'approved') {
+                $query->whereIn('status', [2]);
+            }
         }
 
         // Check if a job was provided
@@ -104,6 +107,7 @@ class TimesheetController extends Controller
      */
     public function store(Request $request)
     {
+        // TODO: ADD HOURLY_RATE TOO
 
         $authUser = auth()->user();
 

@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('username')->unique();
             $table->string('password');
             $table->integer('group');
-            $table->decimal('hourly_rate', 8, 2)->nullable();
+            $table->decimal('hourly_rate', 10, 2)->nullable();
             $table->date('dob')->nullable();
             $table->string('address')->nullable();
             $table->string('phone')->nullable();

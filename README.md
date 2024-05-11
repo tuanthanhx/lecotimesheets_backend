@@ -37,7 +37,7 @@ php artisan db:seed --class=UserSeeder
 ### MAKE CONTROLLER
 
 ```sh:
-php artisan make:controller User
+php artisan make:controller UserController
 ```
 
 ## SOME PASSWORD:

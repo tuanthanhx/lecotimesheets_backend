@@ -15,7 +15,9 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained();
             $table->foreignId('job_id')->constrained();
+            $table->foreignId('payroll_id')->nullable()->constrained();
             $table->integer('status');
+            $table->decimal('hourly_rate', 10, 2)->nullable();
             $table->date('date');
             $table->time('start_time');
             $table->time('end_time');
