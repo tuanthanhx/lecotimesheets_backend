@@ -89,6 +89,24 @@ class JobController extends Controller
     }
 
 
+    public function show(Request $request, $id)
+    {
+        $authUser = auth()->user();
+
+        $job = Job::find($id);
+
+        if ($authUser->group == 6) {
+            $job->makeVisible(['revenue', 'material_cost']);
+        }
+
+        if (!$job) {
+            return response()->json(['message' => 'Job not found'], 404);
+        }
+
+        return response()->json($job);
+    }
+
+
     /**
      * Store a newly created job in storage.
      *

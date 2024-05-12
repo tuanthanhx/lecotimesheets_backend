@@ -1,3 +1,11 @@
+# SETUP
+
+```sh:
+composer install
+php artisan migrate
+php artisan db:seed
+```
+
 ## SOME COMMANDS:
 
 ### OPEN DEV ENV.:

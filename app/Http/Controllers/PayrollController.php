@@ -12,14 +12,20 @@ class PayrollController extends Controller
     public function index(Request $request)
     {
 
+        $authUser = auth()->user();
+
         // Start the query
         $query = Payroll::with(['timesheets', 'timesheets.job' => function ($query) {
             $query->select('id', 'name');
         }])->orderBy('id', 'desc');
 
-        // Check if a user was provided
-        if ($request->filled('user')) {
-            $query->where('user_id', $request->user);
+        if ($authUser->group != 6) {
+            $query->where('user_id', $authUser->id);
+        } else {
+            // Check if a user was provided
+            if ($request->filled('user')) {
+                $query->where('user_id', $request->user);
+            }
         }
 
         // Validate and set the limit parameter, converting it to an integer

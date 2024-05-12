@@ -6,7 +6,7 @@ use App\Models\Timesheet;
 use App\Models\User;
 use App\Services\TimeService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
+// use Illuminate\Support\Facades\Log;
 
 class TimesheetController extends Controller
 {
@@ -112,28 +112,39 @@ class TimesheetController extends Controller
         return response()->json($response);
     }
 
-    // Calculate unpaid amount for a user
-    public function calculateUnpaidAmount(Request $request)
+    // Calculate amount
+    public function calculateAmount(Request $request)
     {
 
-        Log::debug($request);
-
-        $query = Timesheet::whereIn('status', [1, 2]);
+        // Query for all statuses to calculate the total amount
+        $totalQuery = Timesheet::query();
 
         if ($request->filled('user')) {
-            $query->where('user_id', intval($request->user));
+            $totalQuery->where('user_id', intval($request->user));
         }
 
         if ($request->filled('job')) {
-            $query->where('job_id', intval($request->job));
+            $totalQuery->where('job_id', intval($request->job));
         }
 
-        $totalUnpaidAmount = $query->sum('amount');
+        $totalAmount = (float) $totalQuery->sum('amount');
+
+        // Query for specific statuses (unpaid statuses 1 and 2)
+        $unpaidQuery = Timesheet::whereIn('status', [1, 2]);
+
+        if ($request->filled('user')) {
+            $unpaidQuery->where('user_id', intval($request->user));
+        }
+
+        if ($request->filled('job')) {
+            $unpaidQuery->where('job_id', intval($request->job));
+        }
+
+        $unpaidAmount = (float) $unpaidQuery->sum('amount');
 
         return response()->json([
-            'totalUnpaidAmount' => $totalUnpaidAmount,
-            'user' => $request->user,
-            'job' => $request->job,
+            'totalAmount' => $totalAmount,
+            'unpaidAmount' => $unpaidAmount,
         ]);
     }
 

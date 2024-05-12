@@ -44,6 +44,7 @@ Route::group([
     'prefix' => 'jobs'
 ], function ($router) {
     Route::get('/', [JobController::class, 'index'])->middleware('auth:api')->name('jobs.index');
+    Route::get('/{id}', [JobController::class, 'show'])->middleware('auth:api')->name('jobs.show');
     Route::post('/', [JobController::class, 'store'])->middleware('auth:api')->name('jobs.store');
     Route::put('/{id}', [JobController::class, 'update'])->middleware('auth:api')->name('jobs.update');
     Route::post('/{id}/activate', [JobController::class, 'activate'])->middleware('auth:api')->name('jobs.activate');
@@ -66,7 +67,7 @@ Route::group([
     'prefix' => 'timesheets'
 ], function ($router) {
     Route::get('/', [TimesheetController::class, 'index'])->middleware('auth:api')->name('timesheets.index');
-    Route::get('/unpaid', [TimesheetController::class, 'calculateUnpaidAmount'])->middleware('auth:api')->name('timesheets.unpaid');
+    Route::get('/amount', [TimesheetController::class, 'calculateAmount'])->middleware('auth:api')->name('timesheets.amount');
     Route::post('/', [TimesheetController::class, 'store'])->middleware('auth:api')->name('timesheets.store');
     Route::put('/{id}', [TimesheetController::class, 'update'])->middleware('auth:api')->name('timesheets.update');
     Route::post('/{id}/approve', [TimesheetController::class, 'approve'])->middleware('auth:api')->name('timesheets.approve');
