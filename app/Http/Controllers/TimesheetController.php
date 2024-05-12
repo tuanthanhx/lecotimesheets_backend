@@ -116,16 +116,25 @@ class TimesheetController extends Controller
     public function calculateUnpaidAmount(Request $request)
     {
 
-        // Start the query
-        $query = Timesheet::where('user_id', $request->user);
+        Log::debug($request);
 
-        $timesheets = $query->get(); // Fetch all timesheets matching the criteria
+        $query = Timesheet::whereIn('status', [1, 2]);
 
-        // Prepare the response for 'all' data
-        $response = [
-            'data' => $timesheets
-        ];
-        return response()->json($response);
+        if ($request->filled('user')) {
+            $query->where('user_id', intval($request->user));
+        }
+
+        if ($request->filled('job')) {
+            $query->where('job_id', intval($request->job));
+        }
+
+        $totalUnpaidAmount = $query->sum('amount');
+
+        return response()->json([
+            'totalUnpaidAmount' => $totalUnpaidAmount,
+            'user' => $request->user,
+            'job' => $request->job,
+        ]);
     }
 
 
