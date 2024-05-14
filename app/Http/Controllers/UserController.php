@@ -26,7 +26,7 @@ class UserController extends Controller
         // Check if a type was provided
         if ($request->filled('type')) {
             if ($request->type === 'select') {
-                $query->select('id', 'name');
+                $query->select('id', 'name', 'status');
             }
         }
 

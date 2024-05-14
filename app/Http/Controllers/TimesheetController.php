@@ -32,7 +32,7 @@ class TimesheetController extends Controller
             'job' => function ($query) {
                 $query->select('id', 'name');
             }
-        ])->orderBy('id', 'desc');
+        ])->orderBy('date', 'desc');
 
         // Member can see their timesheets only
         if ($authUser->group != 6) {
