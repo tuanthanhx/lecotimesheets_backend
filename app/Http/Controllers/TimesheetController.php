@@ -129,7 +129,7 @@ class TimesheetController extends Controller
 
         $totalAmount = (float) $totalQuery->sum('amount');
 
-        // Query for specific statuses (unpaid statuses 1 and 2)
+        // Query for unpaid statuses (1 and 2)
         $unpaidQuery = Timesheet::whereIn('status', [1, 2]);
 
         if ($request->filled('user')) {
@@ -142,9 +142,23 @@ class TimesheetController extends Controller
 
         $unpaidAmount = (float) $unpaidQuery->sum('amount');
 
+        // Query for paid statuses (3)
+        $paidQuery = Timesheet::whereIn('status', [3]);
+
+        if ($request->filled('user')) {
+            $paidQuery->where('user_id', intval($request->user));
+        }
+
+        if ($request->filled('job')) {
+            $paidQuery->where('job_id', intval($request->job));
+        }
+
+        $paidAmount = (float) $paidQuery->sum('amount');
+
         return response()->json([
             'totalAmount' => $totalAmount,
             'unpaidAmount' => $unpaidAmount,
+            'paidAmount' => $paidAmount,
         ]);
     }
 

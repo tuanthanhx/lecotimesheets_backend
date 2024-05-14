@@ -136,11 +136,6 @@ class JobController extends Controller
         return response()->json(['message' => 'Job created successfully', 'job' => $job], 201);
     }
 
-    // Display the specified job.
-    // public function show(Job $job)
-    // {
-    //     return response()->json($job);
-    // }
 
     /**
      * Update the specified job in storage.
@@ -168,7 +163,6 @@ class JobController extends Controller
 
         return response()->json(['message' => 'Job updated successfully', 'job' => $job]);
     }
-
 
 
     /**

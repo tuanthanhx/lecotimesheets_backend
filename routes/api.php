@@ -52,7 +52,7 @@ Route::group([
     Route::delete('/{id}', [JobController::class, 'destroy'])->middleware('auth:api')->name('jobs.destroy');
 });
 
-// Payroll
+// Payrolls
 Route::group([
     'middleware' => 'api',
     'prefix' => 'payrolls'

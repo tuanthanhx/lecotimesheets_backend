@@ -11,45 +11,6 @@ class AuthController extends Controller
 {
 
     /**
-     * Register a User.
-     *
-     * @return \Illuminate\Http\JsonResponse
-     */
-    // public function register() {
-    //     $validator = Validator::make(request()->all(), [
-    //         'name' => 'required|string|max:255',
-    //         'username' => 'required|string|unique:users',
-    //         'password' => 'required|confirmed|min:6',
-    //         'hourly_rate' => 'required|numeric|min:1',
-    //         'dob' => 'nullable|date',
-    //         'address' => 'nullable|string|max:255',
-    //         'phone' => 'nullable|string|max:255',
-    //         'language' => 'nullable|string',
-    //         'status' => 'nullable|numeric',
-    //     ]);
-
-    //     if($validator->fails()){
-    //         return response()->json($validator->errors()->toJson(), 400);
-    //     }
-
-    //     $user = new User;
-    //     $user->name = request()->name;
-    //     $user->username = request()->username;
-    //     $user->password = bcrypt(request()->password);
-    //     $user->group = 2;
-    //     $user->hourly_rate = request()->hourly_rate;
-    //     $user->dob = request()->dob;
-    //     $user->address = request()->address;
-    //     $user->phone = request()->phone;
-    //     $user->language = request()->language;
-    //     $user->status = request()->status;
-    //     $user->save();
-
-    //     return response()->json($user, 201);
-    // }
-
-
-    /**
      * Get a JWT via given credentials.
      *
      * @return \Illuminate\Http\JsonResponse
@@ -72,7 +33,7 @@ class AuthController extends Controller
     }
 
     /**
-     * Get a JWT via given credentials.
+     * Check if current user is logged in
      *
      * @return \Illuminate\Http\JsonResponse
      */
