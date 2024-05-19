@@ -43,6 +43,7 @@ class AuthController extends Controller
         return response()->json([
             'username' => $user->username,
             'group' => $user->group,
+            'language' => $user->language,
         ]);
     }
 
@@ -96,6 +97,7 @@ class AuthController extends Controller
         if ($user) {
             $response['username'] = $user->username;
             $response['group'] = $user->group;
+            $response['language'] = $user->language;
         }
         return response()->json($response);
     }
