@@ -10,7 +10,7 @@ use App\Http\Controllers\SettingController;
 
 // Test
 Route::get('/hello', function () {
-    return 'Hello, World!';
+    return 'Hello 20241129';
 });
 
 // Auth

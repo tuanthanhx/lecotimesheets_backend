@@ -48,10 +48,8 @@ php artisan db:seed --class=UserSeeder
 php artisan make:controller UserController
 ```
 
-## SOME PASSWORD:
+## HOW TO DEPLOY
 
-DB in production:
-
-DB Name: lecopain_timesheets_2024
-Username: lecopain_timesheets_2024
-Password: P7m2Vk05lPFk
+Update file .env
+Chmod some files in this folder: storage (logs, view), bootstrap/cache
+Access by URL like this: https://timesheets-test.codingbombs.com/server/public/index.php/api
