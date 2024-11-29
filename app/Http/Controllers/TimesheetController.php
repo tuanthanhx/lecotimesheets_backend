@@ -30,7 +30,7 @@ class TimesheetController extends Controller
                 $query->select('id', 'name');
             },
             'job' => function ($query) {
-                $query->select('id', 'name');
+                $query->select('id', 'name', 'detail');
             }
         ])->orderBy('date', 'desc');
 
