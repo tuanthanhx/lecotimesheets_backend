@@ -22,7 +22,7 @@ class UserSeeder extends Seeder
             'hourly_rate' => 25.00,
             'dob' => '1985-01-01',
             'address' => '4001 Anderson Road, Auckland, NZ',
-            'phone' => '+64 21 456 7890',
+            'phone' => '021 456 7890',
             'language' => 'en',
             'status' => 1,
         ]);
@@ -34,7 +34,7 @@ class UserSeeder extends Seeder
             'hourly_rate' => 30.00,
             'dob' => '1992-05-10',
             'address' => '12 Queen Street, Auckland, NZ',
-            'phone' => '+64 21 456 7890',
+            'phone' => '021 456 7890',
             'language' => 'en',
             'status' => 1,
         ]);
@@ -46,7 +46,7 @@ class UserSeeder extends Seeder
             'hourly_rate' => 30.00,
             'dob' => '1988-03-15',
             'address' => '34 Ponsonby Road, Wellington, NZ',
-            'phone' => '+64 22 654 3211',
+            'phone' => '022 654 3211',
             'language' => 'en',
             'status' => 1,
         ]);
@@ -58,7 +58,7 @@ class UserSeeder extends Seeder
             'hourly_rate' => 30.00,
             'dob' => '1990-06-20',
             'address' => '56 Khyber Pass Road, Christchurch, NZ',
-            'phone' => '+64 27 987 6543',
+            'phone' => '027 987 6543',
             'language' => 'en',
             'status' => 1,
         ]);
@@ -70,7 +70,7 @@ class UserSeeder extends Seeder
             'hourly_rate' => 30.00,
             'dob' => '1995-11-25',
             'address' => '78 Victoria Street, Hamilton, NZ',
-            'phone' => '+64 20 123 4568',
+            'phone' => '020 123 4568',
             'language' => 'en',
             'status' => 1,
         ]);
@@ -82,7 +82,7 @@ class UserSeeder extends Seeder
             'hourly_rate' => 30.00,
             'dob' => '1985-12-02',
             'address' => '90 Albert Street, Tauranga, NZ',
-            'phone' => '+64 21 876 5434',
+            'phone' => '021 876 5434',
             'language' => 'en',
             'status' => 1,
         ]);
@@ -94,7 +94,7 @@ class UserSeeder extends Seeder
             'hourly_rate' => 30.00,
             'dob' => '1993-01-18',
             'address' => '123 Lambton Quay, Wellington, NZ',
-            'phone' => '+64 27 432 1875',
+            'phone' => '027 432 1875',
             'language' => 'en',
             'status' => 1,
         ]);
@@ -106,7 +106,7 @@ class UserSeeder extends Seeder
             'hourly_rate' => 30.00,
             'dob' => '1989-04-10',
             'address' => '345 Remuera Road, Auckland, NZ',
-            'phone' => '+64 22 983 2145',
+            'phone' => '022 983 2145',
             'language' => 'en',
             'status' => 1,
         ]);
@@ -118,7 +118,7 @@ class UserSeeder extends Seeder
             'hourly_rate' => 30.00,
             'dob' => '1994-08-05',
             'address' => '56 Queen Street, Christchurch, NZ',
-            'phone' => '+64 20 657 9834',
+            'phone' => '020 657 9834',
             'language' => 'en',
             'status' => 1,
         ]);
@@ -130,7 +130,7 @@ class UserSeeder extends Seeder
             'hourly_rate' => 30.00,
             'dob' => '1986-09-19',
             'address' => '90 Devonport Road, Tauranga, NZ',
-            'phone' => '+64 27 867 3452',
+            'phone' => '027 867 3452',
             'language' => 'en',
             'status' => 1,
         ]);
@@ -142,7 +142,7 @@ class UserSeeder extends Seeder
             'hourly_rate' => 30.00,
             'dob' => '1992-02-12',
             'address' => '123 Victoria Street, Hamilton, NZ',
-            'phone' => '+64 21 987 1254',
+            'phone' => '021 987 1254',
             'language' => 'en',
             'status' => 1,
         ]);
@@ -154,7 +154,7 @@ class UserSeeder extends Seeder
             'hourly_rate' => 30.00,
             'dob' => '1990-10-21',
             'address' => '456 Willis Street, Wellington, NZ',
-            'phone' => '+64 22 453 7864',
+            'phone' => '022 453 7864',
             'language' => 'en',
             'status' => 1,
         ]);
@@ -166,7 +166,7 @@ class UserSeeder extends Seeder
             'hourly_rate' => 30.00,
             'dob' => '1991-11-30',
             'address' => '789 Colombo Street, Christchurch, NZ',
-            'phone' => '+64 20 215 6543',
+            'phone' => '020 215 6543',
             'language' => 'en',
             'status' => 1,
         ]);
@@ -178,7 +178,7 @@ class UserSeeder extends Seeder
             'hourly_rate' => 30.00,
             'dob' => '1984-07-04',
             'address' => '678 Lambton Quay, Auckland, NZ',
-            'phone' => '+64 27 543 2311',
+            'phone' => '027 543 2311',
             'language' => 'en',
             'status' => 1,
         ]);
@@ -190,7 +190,7 @@ class UserSeeder extends Seeder
             'hourly_rate' => 30.00,
             'dob' => '1997-03-13',
             'address' => '234 Khyber Pass Road, Wellington, NZ',
-            'phone' => '+64 21 453 9087',
+            'phone' => '021 453 9087',
             'language' => 'en',
             'status' => 1,
         ]);
@@ -202,7 +202,7 @@ class UserSeeder extends Seeder
             'hourly_rate' => 30.00,
             'dob' => '1983-12-01',
             'address' => '345 Ponsonby Road, Tauranga, NZ',
-            'phone' => '+64 22 876 5412',
+            'phone' => '022 876 5412',
             'language' => 'en',
             'status' => 1,
         ]);
@@ -214,7 +214,7 @@ class UserSeeder extends Seeder
             'hourly_rate' => 30.00,
             'dob' => '1996-06-08',
             'address' => '456 Queen Street, Christchurch, NZ',
-            'phone' => '+64 27 234 8712',
+            'phone' => '027 234 8712',
             'language' => 'en',
             'status' => 1,
         ]);
@@ -226,7 +226,7 @@ class UserSeeder extends Seeder
             'hourly_rate' => 30.00,
             'dob' => '1998-05-22',
             'address' => '678 Victoria Street, Hamilton, NZ',
-            'phone' => '+64 21 128 7543',
+            'phone' => '021 128 7543',
             'language' => 'en',
             'status' => 1,
         ]);
@@ -238,7 +238,7 @@ class UserSeeder extends Seeder
             'hourly_rate' => 30.00,
             'dob' => '1982-04-30',
             'address' => '12 Albert Street, Auckland, NZ',
-            'phone' => '+64 22 546 9871',
+            'phone' => '022 546 9871',
             'language' => 'en',
             'status' => 1,
         ]);
@@ -250,7 +250,7 @@ class UserSeeder extends Seeder
             'hourly_rate' => 30.00,
             'dob' => '1994-09-14',
             'address' => '34 Devonport Road, Tauranga, NZ',
-            'phone' => '+64 27 786 4521',
+            'phone' => '027 786 4521',
             'language' => 'en',
             'status' => 1,
         ]);
@@ -262,7 +262,7 @@ class UserSeeder extends Seeder
             'hourly_rate' => 30.00,
             'dob' => '1989-02-28',
             'address' => '56 Lambton Quay, Wellington, NZ',
-            'phone' => '+64 20 876 5430',
+            'phone' => '020 876 5430',
             'language' => 'en',
             'status' => 1,
         ]);
@@ -274,7 +274,7 @@ class UserSeeder extends Seeder
             'hourly_rate' => 30.00,
             'dob' => '1992-11-09',
             'address' => '78 Colombo Street, Christchurch, NZ',
-            'phone' => '+64 21 341 2987',
+            'phone' => '021 341 2987',
             'language' => 'en',
             'status' => 1,
         ]);
@@ -286,7 +286,7 @@ class UserSeeder extends Seeder
             'hourly_rate' => 30.00,
             'dob' => '1990-07-16',
             'address' => '123 Remuera Road, Auckland, NZ',
-            'phone' => '+64 22 453 9082',
+            'phone' => '022 453 9082',
             'language' => 'en',
             'status' => 1,
         ]);
@@ -298,7 +298,7 @@ class UserSeeder extends Seeder
             'hourly_rate' => 30.00,
             'dob' => '1991-12-07',
             'address' => '345 Queen Street, Wellington, NZ',
-            'phone' => '+64 27 987 5431',
+            'phone' => '027 987 5431',
             'language' => 'en',
             'status' => 1,
         ]);
@@ -310,7 +310,7 @@ class UserSeeder extends Seeder
             'hourly_rate' => 30.00,
             'dob' => '1985-06-11',
             'address' => '456 Victoria Street, Tauranga, NZ',
-            'phone' => '+64 20 654 3451',
+            'phone' => '020 654 3451',
             'language' => 'en',
             'status' => 1,
         ]);
@@ -322,7 +322,7 @@ class UserSeeder extends Seeder
             'hourly_rate' => 30.00,
             'dob' => '1987-08-19',
             'address' => '678 Khyber Pass Road, Hamilton, NZ',
-            'phone' => '+64 21 908 7654',
+            'phone' => '021 908 7654',
             'language' => 'en',
             'status' => 1,
         ]);
@@ -334,7 +334,7 @@ class UserSeeder extends Seeder
             'hourly_rate' => 30.00,
             'dob' => '1993-10-03',
             'address' => '789 Albert Street, Auckland, NZ',
-            'phone' => '+64 22 987 5412',
+            'phone' => '022 987 5412',
             'language' => 'en',
             'status' => 1,
         ]);
@@ -346,7 +346,7 @@ class UserSeeder extends Seeder
             'hourly_rate' => 30.00,
             'dob' => '1994-03-25',
             'address' => '12 Ponsonby Road, Christchurch, NZ',
-            'phone' => '+64 27 345 9087',
+            'phone' => '027 345 9087',
             'language' => 'en',
             'status' => 1,
         ]);
@@ -358,7 +358,7 @@ class UserSeeder extends Seeder
             'hourly_rate' => 30.00,
             'dob' => '1988-01-14',
             'address' => '34 Devonport Road, Tauranga, NZ',
-            'phone' => '+64 20 543 8765',
+            'phone' => '020 543 8765',
             'language' => 'en',
             'status' => 1,
         ]);
@@ -370,7 +370,7 @@ class UserSeeder extends Seeder
             'hourly_rate' => 30.00,
             'dob' => '1995-09-22',
             'address' => '56 Queen Street, Wellington, NZ',
-            'phone' => '+64 21 675 4321',
+            'phone' => '021 675 4321',
             'language' => 'en',
             'status' => 1,
         ]);
@@ -382,7 +382,7 @@ class UserSeeder extends Seeder
             'hourly_rate' => 30.00,
             'dob' => '1989-04-11',
             'address' => '78 Colombo Street, Hamilton, NZ',
-            'phone' => '+64 22 321 9876',
+            'phone' => '022 321 9876',
             'language' => 'en',
             'status' => 1,
         ]);
