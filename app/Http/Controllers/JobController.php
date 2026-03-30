@@ -95,12 +95,12 @@ class JobController extends Controller
 
         $job = Job::find($id);
 
-        if ($authUser->group == 6) {
-            $job->makeVisible(['revenue', 'material_cost']);
-        }
-
         if (!$job) {
             return response()->json(['message' => 'Job not found'], 404);
+        }
+
+        if ($authUser->group == 6) {
+            $job->makeVisible(['revenue', 'material_cost']);
         }
 
         return response()->json($job);
@@ -127,10 +127,10 @@ class JobController extends Controller
         // Create and save the new job
         $job = Job::create([
             'name' => $validatedData['name'],
-            'detail' => $validatedData['detail'],
-            'revenue' => $validatedData['revenue'],
-            'material_cost' => $validatedData['material_cost'],
-            'status' => $validatedData['status'] ?? null,
+            'detail' => $validatedData['detail'] ?? null,
+            'revenue' => $validatedData['revenue'] ?? null,
+            'material_cost' => $validatedData['material_cost'] ?? null,
+            'status' => $validatedData['status'] ?? 1,
         ]);
 
         return response()->json(['message' => 'Job created successfully', 'job' => $job], 201);

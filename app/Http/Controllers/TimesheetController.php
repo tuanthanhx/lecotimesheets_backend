@@ -353,11 +353,11 @@ class TimesheetController extends Controller
         $timesheet = Timesheet::find($id);
 
         if (!$timesheet) {
-            return response()->json(['message' => 'Job not found'], 404);
+            return response()->json(['message' => 'Timesheet not found'], 404);
         }
 
         $timesheet->delete();
 
-        return response()->json(['message' => 'Job deleted successfully'], 200);
+        return response()->json(['message' => 'Timesheet deleted successfully'], 200);
     }
 }
