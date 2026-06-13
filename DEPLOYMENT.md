@@ -135,7 +135,24 @@ After that run:
 php artisan migrate --force
 ```
 
-If you want sample data too:
+For production, seed only the admin user:
+
+```bash
+php artisan db:seed --class=ProductionAdminSeeder --force
+```
+
+This creates or updates one administrator account:
+
+```text
+username: admin
+password: ChangeThisAdminPassword123!
+```
+
+Important:
+- Change this password immediately after the first successful login.
+- You can also edit `database/seeders/ProductionAdminSeeder.php` before uploading if you want a different temporary password.
+
+For local development or demo data only, you can run:
 
 ```bash
 php artisan db:seed --force
@@ -143,7 +160,7 @@ php artisan db:seed --force
 
 Warning:
 - Seeding adds demo users, jobs, and timesheets.
-- Do not run the seeder on a live production database unless you want demo data.
+- Do not run `php artisan db:seed --force` on a live production database unless you want demo data.
 
 ## 7. Set Permissions
 
@@ -217,16 +234,30 @@ For protected routes, send:
 Authorization: Bearer <token>
 ```
 
-## 12. Default Seeded Login
+## 12. Production Admin Login
 
-If you ran the database seeder, the default admin account is:
+If you ran the production admin seeder:
 
 ```text
 username: admin
-password: 123456
+password: ChangeThisAdminPassword123!
 ```
 
 Change this immediately on any real server.
+
+Only use this command in production:
+
+```bash
+php artisan db:seed --class=ProductionAdminSeeder --force
+```
+
+Do not use the default seeder in production:
+
+```bash
+php artisan db:seed --force
+```
+
+The default seeder is for local/demo data and adds demo users, jobs, and timesheets.
 
 ## 13. If the Host Cannot Point to `public/`
 
@@ -292,6 +323,7 @@ SESSION_DRIVER=file
 - Set `JWT_SECRET`
 - Configure database
 - Run migrations
+- Run `php artisan db:seed --class=ProductionAdminSeeder --force`
 - Set folder permissions
 - Point domain to `public`
 - Cache config/routes/views
