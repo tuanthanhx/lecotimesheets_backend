@@ -35,6 +35,22 @@ Before uploading, make sure these exist locally:
 - `storage/`
 - `bootstrap/cache/`
 
+This project is pinned to PHP `8.2.0` in `composer.json`:
+
+```json
+"config": {
+    "platform": {
+        "php": "8.2.0"
+    }
+}
+```
+
+Keep this pin when deploying to shared hosting that supports PHP 8.2 maximum. Without it, Composer may install newer dependencies that require PHP 8.4+, which can cause this runtime error:
+
+```text
+Composer detected issues in your platform: Your Composer dependencies require a PHP version ">= 8.4.1".
+```
+
 If the hosting server does not support Composer, run this locally first:
 
 ```bash
@@ -48,6 +64,15 @@ If the server supports Composer, upload the project and run:
 ```bash
 composer install --no-dev --optimize-autoloader
 ```
+
+Do not upload stale route/config cache files from `bootstrap/cache/`. In particular, remove old files such as:
+
+```text
+bootstrap/cache/routes-v7.php
+bootstrap/cache/config.php
+```
+
+They can make the server ignore newly uploaded routes or `.env` changes.
 
 ## 3. Upload the Project
 
@@ -84,6 +109,7 @@ APP_ENV=production
 APP_KEY=base64:YOUR_APP_KEY
 APP_DEBUG=false
 APP_URL=https://api.your-domain.com
+DEPLOY_SECRET=your_long_random_deploy_secret
 
 LOG_CHANNEL=stack
 LOG_LEVEL=error
@@ -107,6 +133,7 @@ Important:
 - `APP_DEBUG=false` in production
 - `JWT_SECRET` must be set and should be long and random
 - `JWT_ALGO=HS256`
+- `DEPLOY_SECRET` is only needed if you must run migrations/seeders from the browser because the host has no SSH or command runner
 - On shared hosting, `CACHE_STORE=file` and `SESSION_DRIVER=file` are safer than database-backed cache/session unless you already created those tables and want them
 
 ## 5. Generate App Key
@@ -161,6 +188,60 @@ php artisan db:seed --force
 Warning:
 - Seeding adds demo users, jobs, and timesheets.
 - Do not run `php artisan db:seed --force` on a live production database unless you want demo data.
+
+### If the host cannot run commands
+
+Some shared hosting plans do not provide SSH, cron commands, or an Artisan command runner. For that case, this project has a temporary protected browser endpoint:
+
+```text
+GET /deploy/database
+GET /api/deploy/database
+```
+
+Before uploading, set a long random secret in the production `.env`:
+
+```env
+DEPLOY_SECRET=your_long-random-secret-here
+```
+
+Then open this URL in the browser to run migrations and seed only the production admin:
+
+```text
+https://api.your-domain.com/deploy/database?token=your_long-random-secret-here
+```
+
+If the backend is deployed in a subfolder and API URLs include `/public/api`, use the API version instead:
+
+```text
+https://your-domain.com/timesystem_server/public/api/deploy/database?token=your_long-random-secret-here
+```
+
+This runs:
+
+```bash
+php artisan migrate --force
+php artisan db:seed --class=ProductionAdminSeeder --force
+```
+
+For demo data on an empty database, use:
+
+```text
+https://api.your-domain.com/deploy/database?token=your_long-random-secret-here&seed=demo
+```
+
+Subfolder API example:
+
+```text
+https://your-domain.com/timesystem_server/public/api/deploy/database?token=your_long-random-secret-here&seed=demo
+```
+
+Demo mode runs the normal `DatabaseSeeder`, but it refuses to run if `users`, `jobs`, or `timesheets` already contain data.
+
+Security notes:
+- The endpoint returns 404 unless `DEPLOY_SECRET` is set and the `token` query value matches it.
+- Use a long, random, one-time value.
+- After the database is migrated and seeded, remove `DEPLOY_SECRET` from the production `.env`, or remove the temporary route from `routes/web.php`.
+- Do not leave the deploy URL or secret in chat logs, public docs, issue trackers, or screenshots.
 
 ## 7. Set Permissions
 
@@ -300,6 +381,7 @@ If database connection fails:
 If routes return 404:
 - Confirm the domain root points to `public/`
 - Confirm rewrite rules are enabled
+- Confirm `bootstrap/cache/routes-v7.php` is not an old cached route file from another build
 
 ## 15. Suggested Production Values
 
@@ -321,9 +403,11 @@ SESSION_DRIVER=file
 - Create `.env`
 - Set `APP_KEY`
 - Set `JWT_SECRET`
+- Set `DEPLOY_SECRET` only if browser-based migration/seeding is needed
 - Configure database
-- Run migrations
-- Run `php artisan db:seed --class=ProductionAdminSeeder --force`
+- Run migrations with Artisan, or open `/deploy/database?token=...` if there is no shell access
+- Run `php artisan db:seed --class=ProductionAdminSeeder --force`, or use the browser deploy endpoint
+- Remove `DEPLOY_SECRET` or remove the temporary deploy route after seeding
 - Set folder permissions
 - Point domain to `public`
 - Cache config/routes/views

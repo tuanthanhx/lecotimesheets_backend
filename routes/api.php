@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\DeployController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\JobController;
 use App\Http\Controllers\PayrollController;
@@ -12,6 +13,8 @@ use App\Http\Controllers\SettingController;
 Route::get('/hello', function () {
     return 'Hello 20241129';
 });
+
+Route::get('/deploy/database', [DeployController::class, 'database']);
 
 // Auth
 Route::group([
