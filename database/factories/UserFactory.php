@@ -4,7 +4,6 @@ namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Str;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\User>
@@ -25,20 +24,36 @@ class UserFactory extends Factory
     {
         return [
             'name' => fake()->name(),
-            'email' => fake()->unique()->safeEmail(),
-            'email_verified_at' => now(),
+            'username' => fake()->unique()->userName(),
             'password' => static::$password ??= Hash::make('password'),
-            'remember_token' => Str::random(10),
+            'group' => 2,
+            'hourly_rate' => 30.00,
+            'dob' => fake()->date(),
+            'address' => fake()->address(),
+            'phone' => fake()->phoneNumber(),
+            'language' => 'en',
+            'status' => 1,
         ];
     }
 
     /**
-     * Indicate that the model's email address should be unverified.
+     * Indicate that the user is an administrator.
      */
-    public function unverified(): static
+    public function admin(): static
     {
         return $this->state(fn (array $attributes) => [
-            'email_verified_at' => null,
+            'group' => 6,
+            'hourly_rate' => 25.00,
+        ]);
+    }
+
+    /**
+     * Indicate that the user is deactivated.
+     */
+    public function deactivated(): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'status' => 2,
         ]);
     }
 }
