@@ -103,7 +103,7 @@ class TimesheetControllerTest extends TestCase
         $this->deleteJson("/api/timesheets/{$timesheet->id}", [], $headers)
             ->assertOk()
             ->assertJsonPath('message', 'Timesheet deleted successfully');
-        $this->assertDatabaseMissing('timesheets', ['id' => $timesheet->id]);
+        $this->assertSoftDeleted('timesheets', ['id' => $timesheet->id]);
     }
 
     public function test_timesheet_store_validates_required_fields(): void

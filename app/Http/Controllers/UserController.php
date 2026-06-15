@@ -224,8 +224,10 @@ class UserController extends Controller
             return response()->json(['message' => 'User not found'], 404);
         }
 
-        $user->delete();
-
-        return response()->json(['message' => 'User deleted successfully'], 200);
+        return $this->deleteOrConflict(
+            $user,
+            'User deleted successfully',
+            'Cannot delete user because they are being used by timesheets or payrolls.'
+        );
     }
 }

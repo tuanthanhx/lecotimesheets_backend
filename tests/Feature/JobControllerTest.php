@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Models\Job;
+use App\Models\Timesheet;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -47,7 +48,21 @@ class JobControllerTest extends TestCase
         $this->deleteJson("/api/jobs/{$jobId}", [], $headers)
             ->assertOk()
             ->assertJsonPath('message', 'Job deleted successfully');
-        $this->assertDatabaseMissing('jobs', ['id' => $jobId]);
+        $this->assertSoftDeleted('jobs', ['id' => $jobId]);
+    }
+
+    public function test_authenticated_user_can_soft_delete_job_with_timesheets(): void
+    {
+        $admin = $this->adminUser();
+        $job = Job::factory()->create();
+        $timesheet = Timesheet::factory()->create(['job_id' => $job->id]);
+
+        $this->deleteJson("/api/jobs/{$job->id}", [], $this->authHeaders($admin))
+            ->assertOk()
+            ->assertJsonPath('message', 'Job deleted successfully');
+
+        $this->assertSoftDeleted('jobs', ['id' => $job->id]);
+        $this->assertDatabaseHas('timesheets', ['id' => $timesheet->id, 'job_id' => $job->id]);
     }
 
     public function test_job_revenue_and_material_cost_are_hidden_from_members(): void

@@ -356,8 +356,10 @@ class TimesheetController extends Controller
             return response()->json(['message' => 'Timesheet not found'], 404);
         }
 
-        $timesheet->delete();
-
-        return response()->json(['message' => 'Timesheet deleted successfully'], 200);
+        return $this->deleteOrConflict(
+            $timesheet,
+            'Timesheet deleted successfully',
+            'Cannot delete timesheet because it is being used by another record.'
+        );
     }
 }

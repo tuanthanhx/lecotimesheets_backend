@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Models\Timesheet;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Hash;
@@ -88,7 +89,21 @@ class UserControllerTest extends TestCase
         $this->deleteJson("/api/users/{$user->id}", [], $headers)
             ->assertOk()
             ->assertJsonPath('message', 'User deleted successfully');
-        $this->assertDatabaseMissing('users', ['id' => $user->id]);
+        $this->assertSoftDeleted('users', ['id' => $user->id]);
+    }
+
+    public function test_authenticated_user_can_soft_delete_member_user_with_timesheets(): void
+    {
+        $admin = $this->adminUser();
+        $user = $this->memberUser();
+        $timesheet = Timesheet::factory()->create(['user_id' => $user->id]);
+
+        $this->deleteJson("/api/users/{$user->id}", [], $this->authHeaders($admin))
+            ->assertOk()
+            ->assertJsonPath('message', 'User deleted successfully');
+
+        $this->assertSoftDeleted('users', ['id' => $user->id]);
+        $this->assertDatabaseHas('timesheets', ['id' => $timesheet->id, 'user_id' => $user->id]);
     }
 
     public function test_user_index_lists_members_but_not_admins(): void

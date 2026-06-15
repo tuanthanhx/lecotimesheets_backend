@@ -220,8 +220,10 @@ class JobController extends Controller
             return response()->json(['message' => 'Job not found'], 404);
         }
 
-        $job->delete();
-
-        return response()->json(['message' => 'Job deleted successfully'], 200);
+        return $this->deleteOrConflict(
+            $job,
+            'Job deleted successfully',
+            'Cannot delete job because it is being used by timesheets.'
+        );
     }
 }
