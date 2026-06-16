@@ -55,6 +55,7 @@ class AuthController extends Controller
     {
         $user = auth()->user();
         return response()->json([
+            'id' => $user->id,
             'username' => $user->username,
             'group' => $user->group,
             'language' => $user->language,
@@ -109,6 +110,7 @@ class AuthController extends Controller
             'expires_in' => auth()->factory()->getTTL() * 60,
         ];
         if ($user) {
+            $response['id'] = $user->id;
             $response['username'] = $user->username;
             $response['group'] = $user->group;
             $response['language'] = $user->language;
